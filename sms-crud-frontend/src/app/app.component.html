@@ -1,0 +1,72 @@
+<div class="container">
+  <h3 (click)="showCreateForm = true; showEnitresList= false" [hidden]="showCreateForm" class="pointer-cursor">Create Entry</h3>
+  <h3 (click)="showCreateForm = false; showEnitresList= true" [hidden]="showEnitresList" class="pointer-cursor">List Entry</h3>
+  <div class="wrapper" [hidden]="!showCreateForm">
+    <form #regForm='ngForm' (ngSubmit)="createEntry(regForm)">
+      <div class="form-group hidden">
+        <label for="id">Id</label>
+        <input type="text" class="form-control" id="id" name="_id" [hidden]="true" ngModel>
+      </div>
+      <div class="form-group hidden">
+        <label for="id">Id</label>
+        <input type="text" class="form-control" id="id" name="id" [hidden]="true" ngModel>
+      </div>
+      <div class="form-group">
+        <label for="city">City</label>
+        <input type="text" class="form-control" id="city" name="city" required ngModel>
+      </div>
+      <div class="form-group">
+        <label for="start_date">Start Date</label>
+        <input type="date" name="start_date" class="form-control" id="start_date" required ngModel>
+      </div>
+      <div class="form-group">
+        <label for="end_date">End Date</label>
+        <input type="date" name="end_date" class="form-control" id="end_date" required ngModel>
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" class="form-control" id="price" name="price" required ngModel>
+      </div>
+      <div class="form-group">
+        <label for="status">Status</label>
+        <input type="text" class="form-control" id="status" name="status" required ngModel>
+      </div>
+      <div class="form-group">
+        <label for="color">Color</label>
+        <input type="text" class="form-control" id="color" name="color" required ngModel>
+      </div>
+      <button type="submit" class="btn btn-primary pointer-cursor"><span *ngIf="editModeEnabled">Update</span><span *ngIf="!editModeEnabled">Add</span> Entry</button>
+    </form>
+  </div>
+  <div class="wrapper" *ngIf="entries.length && showEnitresList">
+    <div class="container">
+      <h2>List Entries</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>City</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Color</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let entry of entries">
+            <td>{{entry.id}}</td>
+            <td>{{entry.city}}</td>
+            <td>{{entry.start_date | date}}</td>
+            <td>{{entry.end_date | date}}</td>
+            <td>{{entry.price}}</td>
+            <td>{{entry.status}}</td>            
+            <td>{{entry.color}}</td>
+            <td><i class="fa fa-pencil-square-o pointer-cursor" aria-hidden="true" (click)="enableEditMode(entry)"></i>&nbsp;&nbsp;&nbsp; <i class="fa fa-trash pointer-cursor" aria-hidden="true" (click)="deleteEntry(entry.id)"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
