@@ -1,20 +1,15 @@
 # Create image based on the official Node 10 image from dockerhub
 FROM node:10
 
-# Create a directory where our app will be placed
-RUN mkdir -p /app
+COPY package.json package-lock.json ./
 
-# Change directory so that our commands run inside this new directory
-WORKDIR /app
+RUN npm ci && mkdir /ng-app && mv ./node_modules ./ng-app
 
-# Copy dependency definitions
-COPY package*.json /app/
+WORKDIR /ng-app
 
-# Install dependecies
-RUN npm install
+COPY . .
 
-# Get all the code needed to run the app
-COPY . /app/
+RUN npm run ng build -- --prod --output-path=dist
 
 # Expose the port the app runs in
 EXPOSE 4200
