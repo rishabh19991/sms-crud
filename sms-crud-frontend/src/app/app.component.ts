@@ -16,31 +16,32 @@ export class AppComponent {
   showEnitresList: Boolean = true;
   showCreateForm: Boolean = false;
   editModeEnabled: Boolean = false;
-
-  @ViewChild('regForm') regForm: NgForm;
+  model: any = {};
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
+    this.API = window.location.protocol + '//' + window.location.hostname + ':3000';
     this.getAllEntries();
   }
 
-  // Add one person to the API
-  createEntry(formData) {
+  createEntry() {
     if(this.editModeEnabled){
       this.editModeEnabled = !this.editModeEnabled;
-      this.http.post(`${this.API}/entries/` + formData.value.id, formData.value)
+      this.http.post(`${this.API}/entries/` + this.model.id, this.model)
       .subscribe(() => {
         this.showCreateForm = false;
         this.showEnitresList = true;
         this.getAllEntries();
+        alert('Entry Updated!');
       })
     } else {
-      this.http.post(`${this.API}/entries`, formData.value)
+      this.http.post(`${this.API}/entries`, this.model)
       .subscribe(() => {
         this.showCreateForm = false;
         this.showEnitresList = true;
         this.getAllEntries();
+        alert('Entry Created!');
       })
     }
   }
@@ -48,23 +49,36 @@ export class AppComponent {
   getAllEntries() {
     this.http.get(`${this.API}/entries`)
       .subscribe((entry: any) => {
-        console.log(entry)
         this.entries = entry;
       })
   }
 
+  displayForm() {
+    this.showCreateForm = true; 
+    this.showEnitresList= false;
+    this.model.id = this.entries.length + 1;
+  }
+
   enableEditMode(entry) {
-    delete entry.__v;
-    this.regForm.setValue(entry);
+    delete entry._id;delete entry.__v;
+    this.model = entry;
     this.showCreateForm = true;
     this.showEnitresList = false;
     this.editModeEnabled = true;
   }
 
   deleteEntry(id){
-    this.http.delete(`${this.API}/entries/` + id)
+    this.http.post(`${this.API}/deleteEntries/` + id, {})
       .subscribe((entry: any) => {
-        alert('entry deleted');
+        this.getAllEntries();
+        alert('Entry Deleted');
+      });
+  }
+
+  dumpDummyData() {
+    this.http.get(`${this.API}/dummyEntries`)
+      .subscribe((entry: any) => {
+        this.entries = entry;
       });
   }
 }

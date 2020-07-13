@@ -1,39 +1,36 @@
 <div class="container">
-  <h3 (click)="showCreateForm = true; showEnitresList= false" [hidden]="showCreateForm" class="pointer-cursor">Create Entry</h3>
-  <h3 (click)="showCreateForm = false; showEnitresList= true" [hidden]="showEnitresList" class="pointer-cursor">List Entry</h3>
-  <div class="wrapper" [hidden]="!showCreateForm">
-    <form #regForm='ngForm' (ngSubmit)="createEntry(regForm)">
-      <div class="form-group hidden">
-        <label for="id">Id</label>
-        <input type="text" class="form-control" id="id" name="_id" [hidden]="true" ngModel>
-      </div>
-      <div class="form-group hidden">
-        <label for="id">Id</label>
-        <input type="text" class="form-control" id="id" name="id" [hidden]="true" ngModel>
+  <a (click)="displayForm()" [hidden]="showCreateForm" class="pointer-cursor-btn btn-primary">Create Entry</a>
+  <a (click)="showCreateForm = false; showEnitresList= true" [hidden]="showEnitresList" class="pointer-cursor-btn btn-primary">List Entry</a>
+  <a (click)="dumpDummyData()" class="pointer-cursor-btn btn-primary">Load Dummy Data</a>
+  <div class="wrapper" [hidden]="!showCreateForm" style="margin-top: 20px">
+    <form #regForm='ngForm' (ngSubmit)="regForm.form.valid && createEntry()">
+      <div class="form-group">
+        <label for="city">ID</label>
+        <input type="number" class="form-control" id="id" name="id" disabled [(ngModel)]="model.id">
       </div>
       <div class="form-group">
         <label for="city">City</label>
-        <input type="text" class="form-control" id="city" name="city" required ngModel>
+        <input type="text" class="form-control" id="city" name="city" [(ngModel)]="model.city" #city="ngModel" [ngClass]="{ 'is-invalid': regForm.submitted && city.invalid }" required>
       </div>
       <div class="form-group">
         <label for="start_date">Start Date</label>
-        <input type="date" name="start_date" class="form-control" id="start_date" required ngModel>
+        <input type="date" name="start_date" class="form-control" id="start_date" [(ngModel)]="model.start_date" #start_date="ngModel" [ngClass]="{ 'is-invalid': regForm.submitted && start_date.invalid }" required>
       </div>
       <div class="form-group">
         <label for="end_date">End Date</label>
-        <input type="date" name="end_date" class="form-control" id="end_date" required ngModel>
+        <input type="date" name="end_date" class="form-control" id="end_date" [(ngModel)]="model.end_date" #end_date="ngModel" [ngClass]="{ 'is-invalid': regForm.submitted && end_date.invalid }" required>
       </div>
       <div class="form-group">
         <label for="price">Price</label>
-        <input type="number" class="form-control" id="price" name="price" required ngModel>
+        <input type="number" class="form-control" id="price" name="price" [(ngModel)]="model.price" #price="ngModel" [ngClass]="{ 'is-invalid': regForm.submitted && price.invalid }" required>
       </div>
       <div class="form-group">
         <label for="status">Status</label>
-        <input type="text" class="form-control" id="status" name="status" required ngModel>
+        <input type="text" class="form-control" id="status" name="status" [(ngModel)]="model.status" #status="ngModel" [ngClass]="{ 'is-invalid': regForm.submitted && status.invalid }" required>
       </div>
       <div class="form-group">
         <label for="color">Color</label>
-        <input type="text" class="form-control" id="color" name="color" required ngModel>
+        <input type="text" class="form-control" id="color" name="color" [(ngModel)]="model.color" #color="ngModel" [ngClass]="{ 'is-invalid': regForm.submitted && color.invalid }" required>
       </div>
       <button type="submit" class="btn btn-primary pointer-cursor"><span *ngIf="editModeEnabled">Update</span><span *ngIf="!editModeEnabled">Add</span> Entry</button>
     </form>

@@ -11,3 +11,10 @@ services:
     build: sms-crud-backend
     ports:
       - "3000:3000"
+    links:
+      - database
+
+  database:
+    image: mongo
+    ports:
+      - "27018:27018"
