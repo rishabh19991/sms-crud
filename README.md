@@ -1,9 +1,11 @@
 # sms-crud
 CRUD application inside docker container, single network,docker volume, express api, Angular Front
 
+# Prerequisits
 
-#Build Process 
+Docker & Docker-compose (greater than 1.6) must be installed.
 
+# Build Process
 docker-compose up
-#if images are cached
-docker-compose up --build
+
+Application should be running on http://localhost:4200/
