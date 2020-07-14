@@ -38,6 +38,20 @@
   <div class="wrapper" *ngIf="entries.length && showEnitresList">
     <div class="container">
       <h2>List Entries</h2>
+      <!-- filtering option specific for the demo -->
+      <div class="seperator">
+        <form #filterForm='ngForm' (ngSubmit)="filterForm.form.valid && filterEntries()">
+          <div class="form-group col-sm-3">
+            <label for="fsDate">Start Date</label>
+            <input type="date" name="fsDate" id="fsDate" class="form-control" [(ngModel)]="filter.fsDate" #fsDate="ngModel" [ngClass]="{ 'is-invalid': filterForm.submitted && fsDate.invalid }" required>
+          </div>
+          <div class="form-group col-sm-3">
+            <label for="feDate">End Date</label>
+            <input type="date" name="feDate" class="form-control" id="feDate" [(ngModel)]="filter.feDate" #feDate="ngModel" [ngClass]="{ 'is-invalid': filterForm.submitted && feDate.invalid }" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top: 24px;">Filter</button>
+        </form>
+      </div>
       <table class="table">
         <thead>
           <tr>

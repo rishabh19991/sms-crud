@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import * as moment from 'moment';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class AppComponent {
   showCreateForm: Boolean = false;
   editModeEnabled: Boolean = false;
   model: any = {};
+  filter: any = {};
 
   constructor(private http: HttpClient) {}
 
@@ -80,5 +82,11 @@ export class AppComponent {
       .subscribe((entry: any) => {
         this.entries = entry;
       });
+  }
+
+  filterEntries() {
+    if(!this.filter.fsDate || !this.filter.feDate){return;}
+    this.entries = this.entries.filter((entry: any) => 
+            moment(entry.start_date).isSameOrAfter(this.filter.fsDate) && moment(entry.end_date).isSameOrBefore(this.filter.feDate));
   }
 }
