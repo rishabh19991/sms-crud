@@ -58,7 +58,7 @@ export class AppComponent {
   displayForm() {
     this.showCreateForm = true; 
     this.showEnitresList= false;
-    this.model.id = this.entries.length + 1;
+    this.model.id = this.entries.slice(-1)[0].id + 1;
   }
 
   enableEditMode(entry) {
